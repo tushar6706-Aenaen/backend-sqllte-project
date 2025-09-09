@@ -1,11 +1,11 @@
 {
   "name": "prisma-b-to-a",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/index.js"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
