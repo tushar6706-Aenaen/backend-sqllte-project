@@ -1,7 +1,7 @@
 import express  from 'express';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-
+import authRoutes from './routes/authRoutes.js'
 
 const app = express();
 const PORT = process.env.PORT || 5003;
@@ -14,7 +14,7 @@ const __dirname = dirname(__filename)
 
 
 // middleware
-app,use(express.json())
+app.use(express.json())
 // serves the html file from the public directory
 //tell express to serve all files from the public directory / file. any request from css files will be RESOLVED from the public directory
 
@@ -23,6 +23,7 @@ app.get('/',(req,res)=>{
     res.sendFile(path.join(__dirname,'public','index.html')); 
 });
 
+app.use('/auth',authRoutes)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
