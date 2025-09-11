@@ -31,7 +31,19 @@ router.post('/register',(req,res)=>{
 })
 
 router.post('/login',(req,res)=>{
+  const {username,password}= req.body;
 
+  try{
+    const getUser = db.prepare(`select * from user where username = ?`);
+    const user = getUser.get(username);
+
+    if(!user){
+        return res.status(404).json({messsage:"user not found"})
+    }
+  }catch(err){
+    console.log(err.message)
+    return res.status(503).json({message:"error logging in user"});
+  }
 })
 
 
