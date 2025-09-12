@@ -100,7 +100,7 @@
             const btnText = ele.innerText.split(' ')[0]
 
             // filter todos in here
-            const count = todos.filter(val => {
+            const count = todos.filter((val) => {
                 if (btnText === 'All') {
                     return true
                 }
@@ -250,13 +250,33 @@
 
     async function fetchTodos() {
         isLoading = true
-        const response = await fetch(apiBase + 'todos', {
-            headers: { 'Authorization': token }
-        })
-        const todosData = await response.json()
-        todos = todosData
-        isLoading = false
-        renderTodos()
+        try {
+            console.log('📋 Fetching todos...');
+            const response = await fetch(apiBase + 'todos', {
+                headers: { 'Authorization': token }
+            })
+            const todosData = await response.json()
+            console.log('📋 Todos response:', todosData);
+            
+            // Ensure todosData is an array
+            if (Array.isArray(todosData)) {
+                todos = todosData;
+            } else {
+                console.error('❌ Todos response is not an array:', todosData);
+                todos = []; // Default to empty array
+                if (todosData.message) {
+                    console.error('Error message:', todosData.message);
+                }
+            }
+            
+            isLoading = false
+            renderTodos()
+        } catch (err) {
+            console.error('❌ Error fetching todos:', err);
+            todos = []; // Default to empty array on error
+            isLoading = false
+            renderTodos()
+        }
     }
 
     async function updateTodo(index) {
